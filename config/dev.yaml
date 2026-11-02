@@ -1,0 +1,9 @@
+environment: dev
+
+source:
+  dataset_name: ems_incident_dispatch
+  dataset_id: 76xm-jjuj
+  input_path: data_sample/EMS_Incident_Dispatch_Data_2000.csv
+
+bronze:
+  root_path: output/bronze

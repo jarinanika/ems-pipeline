@@ -1,0 +1,9 @@
+environment: prod
+
+source:
+  dataset_name: ems_incident_dispatch
+  dataset_id: 76xm-jjuj
+  input_path: /home/ubuntu/spark-notebooks/ems-pipeline/data_sample/EMS_Incident_Dispatch_Data.csv   # fill in later
+
+bronze:
+  root_path:  /home/ubuntu/spark-notebooks/ems-pipeline/data/bronze                           # fill in later
