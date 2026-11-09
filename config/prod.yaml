@@ -1,9 +1,17 @@
 environment: prod
 
+spark:
+  driver_memory: 8g
+  cores: 4
+  shuffle_partitions: 200
+
 source:
   dataset_name: ems_incident_dispatch
   dataset_id: 76xm-jjuj
-  input_path: /home/ubuntu/spark-notebooks/ems-pipeline/data_sample/EMS_Incident_Dispatch_Data.csv   # fill in later
+  input_path: /home/ubuntu/spark-notebooks/ems-pipeline/data_sample/EMS_Incident_Dispatch_Data.csv
 
 bronze:
-  root_path:  /home/ubuntu/spark-notebooks/ems-pipeline/data/bronze                           # fill in later
+  root_path:  /home/ubuntu/spark-notebooks/ems-pipeline/data/bronze
+
+silver:
+  root_path: /home/ubuntu/spark-notebooks/ems-pipeline/data/silver

@@ -1,5 +1,10 @@
 environment: dev
 
+spark:
+  driver_memory: 2g
+  cores: 2
+  shuffle_partitions: 8
+  
 source:
   dataset_name: ems_incident_dispatch
   dataset_id: 76xm-jjuj
@@ -7,3 +12,6 @@ source:
 
 bronze:
   root_path: output/bronze
+
+silver:
+  root_path: output/silver
