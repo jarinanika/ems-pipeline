@@ -1,9 +1,9 @@
 environment: prod
 
 spark:
-  driver_memory: 8g
-  cores: 4
-  shuffle_partitions: 200
+  driver_memory: 4g
+  cores: 2
+  shuffle_partitions: 400
 
 source:
   dataset_name: ems_incident_dispatch
