@@ -15,3 +15,6 @@ bronze:
 
 silver:
   root_path: output/silver
+
+gold:
+  root_path: output/gold

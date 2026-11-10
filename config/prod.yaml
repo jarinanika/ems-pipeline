@@ -15,3 +15,6 @@ bronze:
 
 silver:
   root_path: /home/ubuntu/spark-notebooks/ems-pipeline/data/silver
+
+gold:
+  root_path: /home/ubuntu/spark-notebooks/ems-pipeline/data/gold

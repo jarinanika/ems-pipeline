@@ -12,17 +12,6 @@ COLUMNS = (
 )
 
 
-@pytest.fixture(scope="session")
-def spark():
-    session = (
-        SparkSession.builder.master("local[1]")
-        .appName("silver_tests")
-        .config("spark.sql.shuffle.partitions", "1")
-        .config("spark.ui.enabled", "false")
-        .getOrCreate()
-    )
-    yield session
-    session.stop()
 
 
 def make_df(spark, rows):
