@@ -102,7 +102,4 @@ Performance tuning (same machine and Spark settings): the timed Silver steps wen
 
 ## Known limitations and next steps
 
-- The source has no regular publishing schedule. Bronze skips a repeated snapshot date, but it does not yet detect unchanged content under a new date. Planned: compare the source's last-updated time or file checksum with the last run before ingesting.
-- GitHub Actions runs the tests but cannot reach the project machine, so the full pipeline run is started on that machine.
-- `UNKNOWN` borough (219 records) and the source code `UNKNOW` for call type are kept as they are.
-- Planned extension: add the NYC Motor Vehicle Collisions dataset (`h9gi-nx95`) as a second source and join it to the borough × month Gold table.
+- The source has no regular publishing schedule. Bronze computes a SHA-256 fingerprint of the source file and compares it with the last successful ingestion log. If the file is unchanged, it logs `skipped_unchanged` and the run script stops before Silver and Gold (override with `FORCE=1`). A different file arriving on the same day gets a numbered snapshot folder.

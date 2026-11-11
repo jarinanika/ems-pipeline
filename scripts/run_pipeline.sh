@@ -19,7 +19,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-export PIPELINE_ENV="${PIPELINE_ENV:-dev}"
+export PIPELINE_ENV="${PIPELINE_ENV:-prod}"
 FORCE="${FORCE:-0}"
 RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
 LOG_DIR="logs/${RUN_ID}"
