@@ -7,7 +7,8 @@
 #   FORCE=1 PIPELINE_ENV=prod bash scripts/run_pipeline.sh   # run Silver and Gold even if Bronze found no new data
 #
 # Each notebook is executed headless. The executed copy, with all printed outputs
-# (timings, quality tables, checks), is saved in logs/<run time>/.
+# (timings, quality tables, checks), is saved in logs/<run time>/, together with run.log
+# (this script's own messages, including the time each step took).
 # The script stops at the first notebook that fails (for example a failed quality check),
 # so later layers never run on bad data.
 #
@@ -24,6 +25,9 @@ FORCE="${FORCE:-0}"
 RUN_ID="$(date -u +%Y%m%dT%H%M%SZ)"
 LOG_DIR="logs/${RUN_ID}"
 mkdir -p "${LOG_DIR}"
+
+# Keep everything printed below in a file as well, so the timings are not lost when the terminal closes
+exec > >(tee "${LOG_DIR}/run.log") 2>&1
 
 # Status of the most recent Bronze ingestion log: success, skipped_unchanged, or none
 bronze_status() {

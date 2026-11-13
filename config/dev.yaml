@@ -18,3 +18,8 @@ silver:
 
 gold:
   root_path: output/gold
+
+collisions:
+  dataset_name: motor_vehicle_collisions
+  dataset_id: h9gi-nx95
+  input_path: data_sample/collisions_sample_2000.csv

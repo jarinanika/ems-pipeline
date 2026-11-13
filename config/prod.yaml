@@ -18,3 +18,8 @@ silver:
 
 gold:
   root_path: /home/ubuntu/spark-notebooks/ems-pipeline/data/gold
+
+collisions:
+  dataset_name: motor_vehicle_collisions
+  dataset_id: h9gi-nx95
+  input_path: /home/ubuntu/spark-notebooks/ems-pipeline/data_sample/collisions_data.csv
