@@ -2,8 +2,8 @@ name: Check for new source data
 
 on:
   schedule:
-    - cron: "0 7 * * 1"      # every Monday at 07:00 UTC
-  workflow_dispatch:         # also lets you run it by hand from the Actions tab
+    - cron: "0 7 * * 1" # every Monday at 07:00 UTC
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,6 +12,10 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dataset: [ems, collisions]
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -23,18 +27,19 @@ jobs:
 
       - name: Compare the source's last update with our last download
         id: check
-        run: python src/source_check.py
+        run: python src/source_check.py --dataset ${{ matrix.dataset }}
 
       - name: Open an issue if new data is available
         if: steps.check.outputs.new_data == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           SOURCE_UPDATED: ${{ steps.check.outputs.source_updated_at }}
+          DATASET: ${{ matrix.dataset }}
         run: |
-          title="New EMS source data available"
+          title="New $DATASET source data available"
           existing=$(gh issue list --state open --search "$title in:title" --json number --jq 'length')
           if [ "$existing" = "0" ]; then
-            gh issue create --title "$title" --body "NYC Open Data updated dataset 76xm-jjuj at $SOURCE_UPDATED, after our last recorded download. Download the new CSV to the configured input path, run PIPELINE_ENV=prod bash scripts/run_pipeline.sh, then record the download with: python src/source_check.py --record --file <csv path>, and commit source_state.json."
+            gh issue create --title "$title" --body "NYC Open Data updated the $DATASET dataset at $SOURCE_UPDATED, after our last recorded download. Download the new CSV, run PIPELINE_ENV=prod bash scripts/run_pipeline.sh, then record the download: python src/source_check.py --dataset $DATASET --record --file <csv path>, and commit the source_state file."
           else
             echo "An issue is already open."
           fi

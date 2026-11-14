@@ -16,9 +16,11 @@ import json
 import os
 import urllib.request
 
-DATASET_ID = "76xm-jjuj"
+DATASETS = {"ems": "76xm-jjuj", "collisions": "h9gi-nx95"}
+DATASET_ID = DATASETS["ems"]          # the dataset checked by default; --dataset changes it
 METADATA_URL = f"https://data.cityofnewyork.us/api/views/{DATASET_ID}"
-STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "source_state.json")
+_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+STATE_FILE = os.path.join(_ROOT, "source_state.json")
 
 
 def fetch_rows_updated_at():
@@ -72,11 +74,18 @@ def write_github_output(new_data, rows_updated_at):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--dataset", choices=sorted(DATASETS), default="ems",
+                           help="which source to check (default: ems)")
     parser.add_argument("--record", action="store_true",
                         help="record when our current CSV was downloaded")
     parser.add_argument("--file", help="with --record: use this file's modification time")
     parser.add_argument("--at", help="with --record: an exact ISO time, e.g. 2026-11-01T12:00:00+00:00")
     args = parser.parse_args(argv)
+    global DATASET_ID, METADATA_URL, STATE_FILE
+    if args.dataset != "ems":
+        DATASET_ID = DATASETS[args.dataset]
+        METADATA_URL = f"https://data.cityofnewyork.us/api/views/{DATASET_ID}"
+        STATE_FILE = os.path.join(_ROOT, f"source_state_{args.dataset}.json")
 
     if args.record:
         if args.at:
